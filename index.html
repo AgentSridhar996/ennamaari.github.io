@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Natmart - Your One-Stop Grocery Shop</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+        .jumbotron {
+            background-image: url('banner.jpg');
+            background-size: cover;
+            color: #fff;
+            text-align: center;
+            padding: 100px 0;
+            margin-bottom: 30px;
+            border-radius: 40px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        .product-image {
+            height: 150px;
+            width: 150px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            transition: transform 0.3s ease-in-out;
+        }
+        .product-image:hover {
+            transform: scale(1.05);
+        }
+        .card {
+            background-color: #f2f2f2;
+            border-radius: 20px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease-in-out;
+        }
+        .card:hover {
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        .card-title {
+            color: #333;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .btn-primary {
+            background-color: #d9ad00;
+            border-color: #d9ad00;
+            color: #333;
+            transition: all 0.3s ease-in-out;
+        }
+        .btn-primary:hover {
+            background-color: #ffcc00;
+            border-color: #ffcc00;
+            color: #333;
+        }
+        .form-control {
+            border-radius: 20px;
+        }
+        .category-btn {
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="jumbotron">
+        <h1 class="display-4">Welcome to Natmart</h1>
+        <p class="lead">Your One-Stop Grocery Shop</p>
+    </div>
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <!-- Category Buttons -->
+                <button class="btn btn-primary category-btn" data-category="Fruits">Fruits</button>
+                <button class="btn btn-primary category-btn" data-category="Canned Goods">Canned Goods</button>
+                <button class="btn btn-primary category-btn" data-category="Meats">Meats</button>
+                <button class="btn btn-primary category-btn" data-category="Bakery">Bakery</button>
+                <button class="btn btn-primary category-btn" data-category="Beverages">Beverages</button>
+                <button class="btn btn-primary category-btn" data-category="Frozen Foods">Frozen Foods</button>
+                <button class="btn btn-primary category-btn" data-category="Sauces and Condiments">Sauces and Condiments</button>
+                <button class="btn btn-primary category-btn" data-category="Snacks">Snacks</button>
+                <button class="btn btn-primary category-btn" data-category="Drinks">Drinks</button>
+                <button class="btn btn-primary category-btn" data-category="Household Cleaners">Household Cleaners</button>
+                <button class="btn btn-primary category-btn" data-category="Personal Care Products">Personal Care Products</button>
+                <button class="btn btn-primary category-btn" data-category="Pet Care Products">Pet Care Products</button>
+                <button class="btn btn-primary category-btn" data-category="Baby Products">Baby Products</button>
+            </div>
+        </div>
+
+        <!-- Product List -->
+        <div class="row" id="productList">
+            <!-- Product cards will be dynamically added here -->
+        </div>
+    </div>
+
+    <!-- Bootstrap and JavaScript libraries -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // List of grocery products grouped by categories
+        const categories = {
+            "Fruits": [
+                "Apple", "Banana", "Orange", "Grapes", "Watermelon", "Pineapple", "Mango", "Strawberry", "Kiwi", "Peach",
+                "Pear", "Plum", "Cherry", "Blueberry", "Raspberry"
+            ],
+            "Canned Goods": [
+                "Canned Beans", "Canned Corn", "Canned Tuna", "Canned Soup", "Canned Vegetables", "Canned Fruits",
+                "Canned Tomatoes", "Canned Pasta Sauce", "Canned Chili", "Canned Fish"
+            ],
+            "Meats": [
+                "Beef", "Chicken", "Pork", "Turkey", "Lamb", "Bacon", "Sausage", "Ham", "Salami", "Pepperoni"
+            ],
+            "Bakery": [
+                "Bread", "Bagels", "Croissants", "Muffins", "Donuts", "Cookies", "Brownies", "Cupcakes", "Pies", "Cakes"
+            ],
+            "Beverages": [
+                "Soda", "Juice", "Tea", "Coffee", "Energy Drinks", "Bottled Water", "Beer", "Wine", "Spirits", "Cocktail Mixers"
+            ],
+            "Frozen Foods": [
+                "Frozen Pizza", "Frozen Vegetables", "Frozen Fruits", "Frozen Meals", "Ice Cream", "Frozen Desserts",
+                "Frozen Appetizers", "Frozen Meat", "Frozen Seafood", "Frozen Breakfast Items"
+            ],
+            "Sauces and Condiments": [
+                "Ketchup", "Mustard", "Mayonnaise", "BBQ Sauce", "Hot Sauce", "Soy Sauce", "Teriyaki Sauce",
+                "Worcestershire Sauce", "Honey", "Maple Syrup", "Salad Dressing", "Salsa", "Guacamole"
+            ],
+            "Snacks": [
+                "Chips", "Pretzels", "Popcorn", "Crackers", "Granola Bars", "Trail Mix", "Nuts", "Dried Fruit", "Beef Jerky",
+                "Candy", "Chocolate", "Cookies", "Rice Cakes", "Pita Chips", "Tortilla Chips"
+            ],
+            "Drinks": [
+                "Milk", "Juice", "Soda", "Bottled Water", "Iced Tea", "Hard Seltzer", "Cocktail Mixers", "Energy Drinks"
+            ],
+            "Household Cleaners": [
+                "Bleach", "Disinfectant Spray", "Multi-Surface Cleaner", "Glass Cleaner", "Floor Cleaner", "Bathroom Cleaner",
+                "Toilet Bowl Cleaner", "Laundry Detergent", "Fabric Softener", "Dish Soap", "Dishwasher Detergent"
+            ],
+            "Personal Care Products": [
+                "Shampoo", "Conditioner", "Body Wash", "Bar Soap", "Hand Soap", "Hand Sanitizer", "Facial Cleanser",
+                "Moisturizer", "Sunscreen", "Deodorant", "Shaving Cream", "Razors", "Toothpaste", "Mouthwash"
+            ],
+            "Pet Care Products": [
+                "Dog Food", "Cat Food", "Pet Treats", "Pet Toys", "Pet Beds", "Pet Shampoo", "Pet Brushes", "Pet Collars", "Pet Leashes"
+            ],
+            "Baby Products": [
+                "Diapers", "Baby Wipes", "Baby Formula", "Baby Food", "Baby Shampoo", "Baby Lotion", "Baby Powder", "Baby Bath",
+                "Baby Oil", "Baby Clothes", "Baby Toys"
+            ]
+        };
+
+        const productList = document.getElementById('productList');
+
+        // Function to generate product cards based on category
+        function generateProductCards(category) {
+            productList.innerHTML = ''; // Clear previous content
+
+            categories[category].forEach(product => {
+                const card = `
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <img src="https://via.placeholder.com/150" class="card-img-top product-image" alt="${product}">
+                            <div class="card-body">
+                                <h5 class="card-title">${product}</h5>
+                                <!-- You can add more details here if needed -->
+                                <button class="btn btn-primary">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                productList.innerHTML += card;
+            });
+        }
+
+        // Event listener for category buttons
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const category = btn.getAttribute('data-category');
+                generateProductCards(category);
+            });
+        });
+    </script>
+</body>
+</html>
